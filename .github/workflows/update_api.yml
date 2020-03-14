@@ -21,7 +21,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install github3.py regex
+        pip install github3.py
     - name: Execute API Updates
       run: |
         python collect_api_version.py

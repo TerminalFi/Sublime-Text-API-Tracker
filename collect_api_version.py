@@ -9,7 +9,6 @@ import zipfile
 from urllib.parse import unquote
 
 import github3
-import regex
 
 # ! Sublime Class
 # ~ Classes that are part of the API in general; the source files contain some
@@ -58,6 +57,9 @@ sublime_api_files = {
     "Lib/python38/sublime_plugin.py": False,
 }
 
+# TODO - Better implementation
+# - There has to be a better way
+# - to implement this.
 seen_previously = list()
 
 
@@ -95,7 +97,7 @@ class SublimeTextAPIVersion:
             #     # TODO Logic for download here
             self.new_versions += 1
             save_path = download_sublime(version["url"])
-            self.results = handle_archive(save_path, self.results)
+            self.results = handle_archive(version["version"], save_path, self.results)
             os.remove(save_path)
 
         if self.new_versions != 0:
@@ -268,23 +270,12 @@ def process_archive_member(
         pass
 
 
-def handle_archive(archive_name, results=None):
+def handle_archive(build, archive_name, results=None):
     """
     Handle both of the appropriate files from the given zip file version of a
     portable install of Sublime Text.
     """
     results = results or dict()
-
-    # The build is second to last in the file name when the build is an x64
-    # build. The builds in the 4xxx series have a different filename style
-    # (at least up until the time of this writing), so we need to adjust for
-    # that.
-    base = os.path.splitext(os.path.basename(archive_name))[0]
-    matches = regex.search(r"(\d{4})", base)
-    if matches:
-        build = matches.group(1)
-    else:
-        build = "UNKNOWN"
 
     with zipfile.ZipFile(archive_name, "r") as zFile:
         for key, value in sublime_api_files.items():
