@@ -500,5 +500,13 @@
     "4067": [
         "sublime.Window.bring_to_front"
     ],
-    "4068": []
+    "4068": [],
+    "4069": [
+        "sublime.View.change_id",
+        "sublime.View.rowcol_utf16",
+        "sublime.View.rowcol_utf8",
+        "sublime.View.text_point_utf16",
+        "sublime.View.text_point_utf8",
+        "sublime.View.transform_region_from"
+    ]
 }
