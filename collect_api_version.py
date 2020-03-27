@@ -92,9 +92,10 @@ class SublimeTextAPIVersion:
         )
 
         for version in self.sublime_version_list_content["data"]:
-            if str(version["version"]) in self.sublime_api_list_content.keys():
+            if version["version"] in self.sublime_api_list_content.keys():
+                print(f"Version List: {version} - Already Processed")
                 continue
-            #     # TODO Logic for download here
+
             self.new_versions += 1
             save_path = download_sublime(version["url"])
             self.results = handle_archive(version["version"], save_path, self.results)
@@ -126,8 +127,13 @@ class SublimeTextAPIVersion:
         )
 
     def _get_api_list(self, encoded_list):
+        global seen_previously
         decoded_list = encoded_list.decode("UTF-8")
         self.sublime_api_list_content = ast.literal_eval(decoded_list)
+        for key in self.sublime_api_list_content:
+            for item in self.sublime_api_list_content[key]:
+                if key not in seen_previously:
+                    seen_previously += [item]
 
     def _get_version_list(self, encoded_list):
         decoded_list = encoded_list.decode("UTF-8")
