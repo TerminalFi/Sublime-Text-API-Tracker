@@ -142,5 +142,9 @@
     {
         "version": "4069",
         "url": "https://download.sublimetext.com/sublime_text_build_4069_x64.zip"
+    },
+    {
+        "version": "4070",
+        "url": "https://download.sublimetext.com/sublime_text_build_4070_x64.zip"
     }]
 }
