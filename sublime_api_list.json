@@ -517,5 +517,6 @@
         "sublime.View.text_point_utf8",
         "sublime.View.transform_region_from"
     ],
-    "4070": []
+    "4070": [],
+    "4072": []
 }
