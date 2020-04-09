@@ -518,5 +518,8 @@
         "sublime.View.transform_region_from"
     ],
     "4070": [],
-    "4072": []
+    "4072": [],
+    "4073": [
+        "sublime.View.preserve_auto_complete_on_focus_lost"
+    ]
 }
