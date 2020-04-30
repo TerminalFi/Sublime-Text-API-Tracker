@@ -79,31 +79,38 @@ class SublimeTextAPIVersion:
             "api/update",
             str(round(time.time() * 1000)),
         )
+        self.new_version = bool()
         self.new_versions = 0
         self.results = dict()
 
     def run(self):
-        self.sublime_api_list = self.repository.file_contents(api_endpoint)
-        self.sublime_version_list = self.repository.file_contents(version_endpoint)
+        self.sublime_api_list = self.repository.file_contents(
+            api_endpoint, self.master_branch
+        )
+        self.sublime_version_list = self.repository.file_contents(
+            version_endpoint, self.master_branch
+        )
         self._get_api_list()
         self._get_version_list()
+        self._check_for_new_version()
+        if not self.new_version:
+            print("No new versions identified")
+            return
 
         for version in self.sublime_version_list_content.keys():
             if version in self.sublime_api_list_content.keys():
-                print(f"Version List: {version} - Already Processed")
                 continue
 
             self.new_versions += 1
-            print(self.sublime_version_list_content[version])
             save_path = download_sublime(self.sublime_version_list_content[version])
             self.results = handle_archive(version, save_path, self.results)
             os.remove(save_path)
 
         if self.new_versions != 0:
             self.sublime_api_list_content.update(self.results)
-            # self._create_new_branch()
-            # self._push_commit_to_branch()
-            # self._create_pull_request()
+            self._create_new_branch()
+            self._push_commit_to_branch()
+            self._create_pull_request()
 
     def _create_new_branch(self):
         self.repository.create_branch_ref(self.api_update_branch, self.master)
@@ -112,6 +119,11 @@ class SublimeTextAPIVersion:
         self.sublime_api_list.update(
             "Updating API Documentation",
             json.dumps(self.sublime_api_list_content, indent=4).encode("utf-8"),
+            branch=self.api_update_branch,
+        )
+        self.sublime_version_list.update(
+            "Updating API Documentation",
+            json.dumps(self.sublime_version_list_content, indent=4).encode("utf-8"),
             branch=self.api_update_branch,
         )
 
@@ -141,6 +153,8 @@ class SublimeTextAPIVersion:
         with request.urlopen(update_url) as update:
             latest_version = json.load(update)["latest_version"]
         if latest_version not in self.sublime_version_list_content.keys():
+            self.new_version = True
+            print(f"New version identified: {latest_version}")
             self.sublime_version_list_content[latest_version] = download_url.format(
                 latest_version
             )
@@ -297,8 +311,9 @@ def handle_archive(build, archive_name, results=None):
 
 def download_sublime(url):
     save_path = "./%s" % unquote(url).split("/")[-1]
-    with open(save_path, "wb") as out_file:
-        out_file.write(dl_file.read())
+    with request.urlopen(url) as dl_file:
+        with open(save_path, "wb") as out_file:
+            out_file.write(dl_file.read())
     return save_path
 
 
