@@ -521,5 +521,9 @@
     "4072": [],
     "4073": [
         "sublime.View.preserve_auto_complete_on_focus_lost"
-    ]
+    ],
+    "4074": [
+        "sublime.CompletionItem.__eq__"
+    ],
+    "4074": []
 }
