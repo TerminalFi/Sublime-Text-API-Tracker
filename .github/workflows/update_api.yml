@@ -2,10 +2,12 @@ name: Update Sublime API Docs
 
 on:
   push:
-    branches:    
+    branches:
       - master  
     paths:
     - 'sublime_version_list.json'
+  schedule:
+    - cron: '*/60 * * * *'
 
 jobs:
   update-api-docs:
