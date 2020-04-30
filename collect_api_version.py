@@ -4,14 +4,14 @@ import ast
 import json
 import os
 import time
-import urllib.request
 import zipfile
+from urllib import request
 from urllib.parse import unquote
 
 import github3
 
 # ! Sublime Class
-# ~ Classes that are part of the API in general; the source files contain some
+# * Classes that are part of the API in general; the source files contain some
 # - helper classes that are just noise
 _classes = [
     # ~ From the sublime module
@@ -57,6 +57,10 @@ sublime_api_files = {
     "Lib/python38/sublime_plugin.py": False,
 }
 
+update_url = "https://www.sublimetext.com/updates/4/dev_update_check"
+download_url = "https://download.sublimetext.com/sublime_text_build_{}_x64.zip"
+api_endpoint = "/sublime_api_list.json"
+version_endpoint = "/sublime_version_list.json"
 # TODO - Better implementation
 # - There has to be a better way
 # - to implement this.
@@ -75,37 +79,31 @@ class SublimeTextAPIVersion:
             "api/update",
             str(round(time.time() * 1000)),
         )
-        self.sublime_api_list_endpoint = "/sublime_api_list.json"
-        self.sublime_version_list_endpoint = "/sublime_version_list.json"
         self.new_versions = 0
         self.results = dict()
 
     def run(self):
-        self.sublime_api_list = self.repository.file_contents(
-            self.sublime_api_list_endpoint
-        )
-        self._get_api_list(
-            self.repository.file_contents(self.sublime_api_list_endpoint).decoded
-        )
-        self._get_version_list(
-            self.repository.file_contents(self.sublime_version_list_endpoint).decoded
-        )
+        self.sublime_api_list = self.repository.file_contents(api_endpoint)
+        self.sublime_version_list = self.repository.file_contents(version_endpoint)
+        self._get_api_list()
+        self._get_version_list()
 
-        for version in self.sublime_version_list_content["data"]:
-            if version["version"] in self.sublime_api_list_content.keys():
+        for version in self.sublime_version_list_content.keys():
+            if version in self.sublime_api_list_content.keys():
                 print(f"Version List: {version} - Already Processed")
                 continue
 
             self.new_versions += 1
-            save_path = download_sublime(version["url"])
-            self.results = handle_archive(version["version"], save_path, self.results)
+            print(self.sublime_version_list_content[version])
+            save_path = download_sublime(self.sublime_version_list_content[version])
+            self.results = handle_archive(version, save_path, self.results)
             os.remove(save_path)
 
         if self.new_versions != 0:
             self.sublime_api_list_content.update(self.results)
-            self._create_new_branch()
-            self._push_commit_to_branch()
-            self._create_pull_request()
+            # self._create_new_branch()
+            # self._push_commit_to_branch()
+            # self._create_pull_request()
 
     def _create_new_branch(self):
         self.repository.create_branch_ref(self.api_update_branch, self.master)
@@ -126,18 +124,26 @@ class SublimeTextAPIVersion:
             message,
         )
 
-    def _get_api_list(self, encoded_list):
+    def _get_api_list(self):
         global seen_previously
-        decoded_list = encoded_list.decode("UTF-8")
+        decoded_list = self.sublime_api_list.decoded.decode("UTF-8")
         self.sublime_api_list_content = ast.literal_eval(decoded_list)
-        for key in self.sublime_api_list_content:
+        for key in self.sublime_api_list_content.keys():
             for item in self.sublime_api_list_content[key]:
                 if key not in seen_previously:
                     seen_previously += [item]
 
-    def _get_version_list(self, encoded_list):
-        decoded_list = encoded_list.decode("UTF-8")
+    def _get_version_list(self):
+        decoded_list = self.sublime_version_list.decoded.decode("UTF-8")
         self.sublime_version_list_content = ast.literal_eval(decoded_list)
+
+    def _check_for_new_version(self):
+        with request.urlopen(update_url) as update:
+            latest_version = json.load(update)["latest_version"]
+        if latest_version not in self.sublime_version_list_content.keys():
+            self.sublime_version_list_content[latest_version] = download_url.format(
+                latest_version
+            )
 
 
 def _get_class_methods(cls_node, base=None):
@@ -291,9 +297,8 @@ def handle_archive(build, archive_name, results=None):
 
 def download_sublime(url):
     save_path = "./%s" % unquote(url).split("/")[-1]
-    with urllib.request.urlopen(url) as dl_file:
-        with open(save_path, "wb") as out_file:
-            out_file.write(dl_file.read())
+    with open(save_path, "wb") as out_file:
+        out_file.write(dl_file.read())
     return save_path
 
 
