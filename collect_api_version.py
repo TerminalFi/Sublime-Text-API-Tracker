@@ -151,7 +151,7 @@ class SublimeTextAPIVersion:
 
     def _check_for_new_version(self):
         with request.urlopen(update_url) as update:
-            latest_version = json.load(update)["latest_version"]
+            latest_version = str(json.load(update)["latest_version"])
         if latest_version not in self.sublime_version_list_content.keys():
             self.new_version = True
             print(f"New version identified: {latest_version}")
