@@ -524,5 +524,35 @@
     ],
     "4074": [
         "sublime.CompletionItem.__eq__"
+    ],
+    "4075": [
+        "sublime.open_dialog",
+        "sublime.save_dialog",
+        "sublime.select_folder_dialog",
+        "sublime.format_command",
+        "sublime.html_format_command",
+        "sublime.command_url",
+        "sublime.get_clipboard_async",
+        "sublime.Region.to_tuple",
+        "sublime.Phantom.to_tuple",
+        "sublime.log_fps",
+        "sublime.Window.__repr__",
+        "sublime.Edit.__repr__",
+        "sublime.HistoricPosition.__repr__",
+        "sublime.TextChange.__repr__",
+        "sublime.Selection.__repr__",
+        "sublime.Selection.__str__",
+        "sublime.Sheet.__repr__",
+        "sublime.TextSheet.__repr__",
+        "sublime.ImageSheet.__repr__",
+        "sublime.HtmlSheet.__repr__",
+        "sublime.View.__repr__",
+        "sublime.Settings.__iter__",
+        "sublime.Settings.__repr__",
+        "sublime.Phantom.__repr__",
+        "sublime.PhantomSet.__repr__",
+        "sublime.Html.__repr__",
+        "sublime.CompletionList.__repr__",
+        "sublime.CompletionItem.__repr__"
     ]
 }
