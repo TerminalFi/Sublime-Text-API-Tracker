@@ -84,6 +84,7 @@ class SublimeTextAPIVersion:
         self.results = dict()
 
     def run(self):
+        self.pull_requests = [i.head.ref for i in self.repository.pull_requests(state='open')]
         self.sublime_api_list = self.repository.file_contents(
             api_endpoint, self.master_branch
         )
@@ -108,9 +109,14 @@ class SublimeTextAPIVersion:
 
         if self.new_versions != 0:
             self.sublime_api_list_content.update(self.results)
-            self._create_new_branch()
-            self._push_commit_to_branch()
-            self._create_pull_request()
+            self.api_update_branch = "%s-%s" % (
+                "api/update",
+                self.sublime_version_list_content[-1],
+            )
+            if self.api_update_branch not in self.pull_requests:
+                self._create_new_branch()
+                self._push_commit_to_branch()
+                self._create_pull_request()
 
     def _create_new_branch(self):
         self.repository.create_branch_ref(self.api_update_branch, self.master)
