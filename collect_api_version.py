@@ -7,6 +7,7 @@ import time
 import zipfile
 from urllib import request
 from urllib.parse import unquote
+from collections import OrderedDict
 
 import github3
 
@@ -109,10 +110,12 @@ class SublimeTextAPIVersion:
 
         if self.new_versions != 0:
             self.sublime_api_list_content.update(self.results)
+            latest = list(self.sublime_version_list_content)[-1]
             self.api_update_branch = "%s-%s" % (
                 "api/update",
-                self.sublime_version_list_content[-1],
+                latest,
             )
+            print(self.api_update_branch)
             if self.api_update_branch not in self.pull_requests:
                 self._create_new_branch()
                 self._push_commit_to_branch()
@@ -153,7 +156,7 @@ class SublimeTextAPIVersion:
 
     def _get_version_list(self):
         decoded_list = self.sublime_version_list.decoded.decode("UTF-8")
-        self.sublime_version_list_content = ast.literal_eval(decoded_list)
+        self.sublime_version_list_content = OrderedDict(ast.literal_eval(decoded_list))
 
     def _check_for_new_version(self):
         with request.urlopen(update_url) as update:
