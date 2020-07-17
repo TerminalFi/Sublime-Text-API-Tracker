@@ -556,5 +556,10 @@
         "sublime.CompletionItem.__repr__"
     ],
     "4076": [],
-    "4077": []
+    "4077": [],
+    "4078": [
+        "sublime.Settings.__delitem__",
+        "sublime.Settings.to_dict",
+        "sublime.Settings.update"
+    ]
 }
