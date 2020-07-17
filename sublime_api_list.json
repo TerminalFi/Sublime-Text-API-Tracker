@@ -561,5 +561,6 @@
         "sublime.Settings.__delitem__",
         "sublime.Settings.to_dict",
         "sublime.Settings.update"
-    ]
+    ],
+    "4079": []
 }
