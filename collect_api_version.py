@@ -101,10 +101,6 @@ class SublimeTextAPIVersion:
         )
         self.master = self.repository.commit("master")
         self.master_branch = "master"
-        self.api_update_branch = "%s_%s" % (
-            "api/update",
-            str(round(time.time() * 1000)),
-        )
 
     def run(self):
         self.pull_requests = [
@@ -140,10 +136,10 @@ class SublimeTextAPIVersion:
             latest = sorted(self.version_download_url.keys())[-1]
             self.api_update_branch = "%s_%s" % ("api/update", latest,)
 
-        if self.api_update_branch not in self.pull_requests:
-            self._create_new_branch()
-            self._push_commit_to_branch()
-            self._create_pull_request()
+            if self.api_update_branch not in self.pull_requests:
+                self._create_new_branch()
+                self._push_commit_to_branch()
+                self._create_pull_request()
 
     def _create_new_branch(self):
         try:
