@@ -58,65 +58,54 @@ sublime_api_files = {
     "Lib/python38/sublime_plugin.py": False,
 }
 
-update_url = "https://www.sublimetext.com/updates/4/dev_update_check"
-download_url = "https://download.sublimetext.com/sublime_text_build_{}_x64.zip"
-api_endpoint = "/sublime_api_list.json"
-version_endpoint = "/sublime_version_list.json"
+api_endpoint = "/apis.json"
+version_endpoint = "/versions.json"
+diff_history_endpoint = "/diffs.json"
 
 
 class DiffEngine:
-    def __init__(self, version: str, original: dict, new: list):
+    def __init__(self, original: list, new: list):
         self.original = original
         self.new = new
-        self.version = version
-        self.changes = dict()
+        self.changes = {}
+        self.final = []
 
-    def diff(self) -> dict():
-        original = self._combine_original()
-        changes = {"added": [], "removed": [], "unchanged": []}
+    def diff(self) -> (list, dict):
+        original = self.original
+        changes = {"added": [], "removed": []}
         new = self.new.copy()
         for item in self.new:
             if item in original:
-                changes["unchanged"].append(new.pop(new.index(item)))
+                self.final.append(new.pop(new.index(item)))
                 original.pop(original.index(item))
                 continue
-            changes["added"].append(new.pop(new.index(item)))
+            new_item = new.pop(new.index(item))
+            changes["added"].append(new_item)
+            self.final.append(new_item)
 
         for item in original:
             if item not in new:
                 changes["removed"].append(item)
 
         self.changes = changes
-        return self.changes
-
-    def _combine_original(self) -> list:
-        if not self.original:
-            return []
-
-        last = sorted(list(self.original))[-1]
-        if self.original.get(last):
-            return [
-                *self.original[last].get("added", []),
-                *self.original[last].get("unchanged", []),
-            ]
-        return []
+        return (self.final, self.changes)
 
 
 class SublimeTextAPIVersion:
     def __init__(self):
+        self.new_version = False
+        self.new_versions = 0
+        self.results = {}
         self.github = github3.login(token=os.environ["GITHUB_API_TOKEN"])
         self.repository = self.github.repository(
             "TheSecEng", "Sublime-Text-API-Tracker"
         )
-        self.master = self.repository.commit("master")
-        self.master_branch = "master"
+        self.master = self.repository.commit("v2/re-write")
+        self.master_branch = "v2/re-write"
         self.api_update_branch = "%s-%s" % (
             "api/update",
             str(round(time.time() * 1000)),
         )
-        self.new_version = bool()
-        self.new_versions = 0
-        self.results = dict()
 
     def run(self):
         self.pull_requests = [
@@ -128,30 +117,29 @@ class SublimeTextAPIVersion:
         self.sublime_version_list = self.repository.file_contents(
             version_endpoint, self.master_branch
         )
+        self.sublime_diffs_list = self.repository.file_contents(
+            diff_history_endpoint, self.master_branch
+        )
         self._get_api_list()
         self._get_version_list()
-        self._check_for_new_version()
+        self._get_diff_list()
 
-        if not self.new_version:
-            print("No new versions identified")
-            return
-
-        for version in self.sublime_version_list_content.keys():
-            if version in self.sublime_api_list_content.keys():
+        for version in sorted(self.version_download_url.keys()):
+            if version in self.diffs_content.keys():
                 continue
 
             self.new_versions += 1
-            save_path = download_sublime(self.sublime_version_list_content[version])
+            save_path = download_sublime(self.version_download_url[version])
             self.results = handle_archive(version, save_path, self.results)
             os.remove(save_path)
-            de = DiffEngine(
-                version, self.sublime_api_list_content, self.results[version]
-            )
-            self.sublime_api_list_content[version] = de.diff()
+            de = DiffEngine(self.sublime_api_list_content, self.results[version])
+            api_list, diff = de.diff()
+            self.diffs_content[version] = diff
+            self.sublime_api_list_content = api_list
 
         if self.new_versions != 0:
-            latest = sorted(list(self.sublime_version_list_content))[-1]
-            self.api_update_branch = "%s-%s" % ("api/update", latest,)
+            latest = sorted(self.version_download_url.keys())[-1]
+            self.api_update_branch = "%s_%s" % ("api/update", latest,)
 
         if self.api_update_branch not in self.pull_requests:
             self._create_new_branch()
@@ -159,12 +147,20 @@ class SublimeTextAPIVersion:
             self._create_pull_request()
 
     def _create_new_branch(self):
-        self.repository.create_branch_ref(self.api_update_branch, self.master)
+        try:
+            self.repository.create_branch_ref(self.api_update_branch, self.master)
+        except github3.GitHubError as error:
+            print(error.errors)
 
     def _push_commit_to_branch(self):
         self.sublime_api_list.update(
             "Updating API Documentation",
             json.dumps(self.sublime_api_list_content, indent=4).encode("utf-8"),
+            branch=self.api_update_branch,
+        )
+        self.sublime_diffs_list.update(
+            "Updating API Documentation",
+            json.dumps(self.diffs_content, indent=4).encode("utf-8"),
             branch=self.api_update_branch,
         )
 
@@ -178,21 +174,19 @@ class SublimeTextAPIVersion:
         )
 
     def _get_api_list(self):
-        decoded_list = self.sublime_api_list.decoded.decode("UTF-8")
-        self.sublime_api_list_content = ast.literal_eval(decoded_list)
+        self.sublime_api_list_content = ast.literal_eval(
+            self.sublime_api_list.decoded.decode("UTF-8")
+        )
 
     def _get_version_list(self):
-        decoded_list = self.sublime_version_list.decoded.decode("UTF-8")
-        self.sublime_version_list_content = OrderedDict(ast.literal_eval(decoded_list))
+        self.version_download_url = OrderedDict(
+            ast.literal_eval(self.sublime_version_list.decoded.decode("UTF-8"))
+        )
 
-    def _check_for_new_version(self):
-        with request.urlopen(update_url) as update:
-            latest_version = str(json.load(update)["latest_version"])
-        if latest_version not in self.sublime_version_list_content.keys():
-            self.new_version = True
-            self.sublime_version_list_content[latest_version] = download_url.format(
-                latest_version
-            )
+    def _get_diff_list(self):
+        self.diffs_content = OrderedDict(
+            ast.literal_eval(self.sublime_diffs_list.decoded.decode("UTF-8"))
+        )
 
 
 def _get_class_methods(cls_node, base=None):
