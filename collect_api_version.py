@@ -155,6 +155,11 @@ class SublimeTextAPIVersion:
             json.dumps(self.sublime_api_list_content, indent=4).encode("utf-8"),
             branch=self.api_update_branch,
         )
+        self.sublime_diffs_list.update(
+            "Updating API Documentation",
+            json.dumps(self.diffs_content, indent=4).encode("utf-8"),
+            branch=self.api_update_branch,
+        )
 
     def _create_pull_request(self):
         message = f"## Sublime API Documentation Update\n\n**New Versions Added:** _{self.new_versions}_"
