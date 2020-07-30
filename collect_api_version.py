@@ -101,7 +101,7 @@ class SublimeTextAPIVersion:
         )
         self.master = self.repository.commit("master")
         self.master_branch = "master"
-        self.api_update_branch = "%s-%s" % (
+        self.api_update_branch = "%s_%s" % (
             "api/update",
             str(round(time.time() * 1000)),
         )
