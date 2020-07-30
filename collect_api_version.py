@@ -138,8 +138,8 @@ class SublimeTextAPIVersion:
             self.sublime_api_list_content = api_list
 
         if self.new_versions != 0:
-            latest = sorted(list(self.version_download_url))[-1]
-            self.api_update_branch = "%s-%s" % ("api/update", latest,)
+            latest = sorted(self.version_download_url.keys())[-1]
+            self.api_update_branch = "%s_%s" % ("api/update", latest,)
 
         if self.api_update_branch not in self.pull_requests:
             self._create_new_branch()
@@ -147,7 +147,10 @@ class SublimeTextAPIVersion:
             self._create_pull_request()
 
     def _create_new_branch(self):
-        self.repository.create_branch_ref(self.api_update_branch, self.master)
+        try:
+            self.repository.create_branch_ref(self.api_update_branch, self.master)
+        except github3.GitHubError as error:
+            print(error.errors)
 
     def _push_commit_to_branch(self):
         self.sublime_api_list.update(
