@@ -100,8 +100,8 @@ class SublimeTextAPIVersion:
         self.repository = self.github.repository(
             "TheSecEng", "Sublime-Text-API-Tracker"
         )
-        self.master = self.repository.commit("v2/re-write")
-        self.master_branch = "v2/re-write"
+        self.master = self.repository.commit("master")
+        self.master_branch = "master"
         self.api_update_branch = "%s-%s" % (
             "api/update",
             str(round(time.time() * 1000)),
