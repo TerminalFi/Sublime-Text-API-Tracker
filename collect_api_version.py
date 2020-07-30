@@ -124,10 +124,6 @@ class SublimeTextAPIVersion:
         self._get_version_list()
         self._get_diff_list()
 
-        if not self.new_version:
-            print("No new versions identified")
-            return
-
         for version in sorted(self.version_download_url.keys()):
             if version in self.diffs_content.keys():
                 continue
@@ -140,18 +136,15 @@ class SublimeTextAPIVersion:
             api_list, diff = de.diff()
             self.diffs_content[version] = diff
             self.sublime_api_list_content = api_list
-            self.sublime_api_list_content[version] = de.diff()
 
         if self.new_versions != 0:
             latest = sorted(list(self.version_download_url))[-1]
             self.api_update_branch = "%s-%s" % ("api/update", latest,)
 
-        print(self.diffs_content)
-
-        # if self.api_update_branch not in self.pull_requests:
-        #     self._create_new_branch()
-        #     self._push_commit_to_branch()
-        #     self._create_pull_request()
+        if self.api_update_branch not in self.pull_requests:
+            self._create_new_branch()
+            self._push_commit_to_branch()
+            self._create_pull_request()
 
     def _create_new_branch(self):
         self.repository.create_branch_ref(self.api_update_branch, self.master)
