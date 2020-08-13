@@ -39,6 +39,7 @@ _classes = [
     "TextCommand",
     "TextInputHandler",
     "ViewEventListener",
+    "TextChangeListener",
     "WindowCommand",
     "BackInputHandler",
     # These are special base classes; we don't want to spit them out directly
