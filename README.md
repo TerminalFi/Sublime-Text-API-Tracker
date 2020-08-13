@@ -12,3 +12,5 @@ This tool is meant to provide a fast and easy way for _Sublime Text_ api's to be
 2. Update `sublime_version_list.json` with the new version number and url to the Windows x64 portable edition
 3. Submit a PR
 4. Enjoy!
+
+**Changes are reflected in diffs.json and apis.json**
