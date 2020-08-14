@@ -726,5 +726,19 @@
     "4079": {
         "added": [],
         "removed": []
+    },
+    "4080": {
+        "added": [
+            "sublime_plugin.TextChangeListener.__init__",
+            "sublime_plugin.TextChangeListener.attach",
+            "sublime_plugin.TextChangeListener.is_applicable",
+            "sublime_plugin.TextChangeListener.is_attached",
+            "sublime_plugin.TextChangeListener.remove"
+        ],
+        "removed": []
+    },
+    "4081": {
+        "added": [],
+        "removed": []
     }
 }
