@@ -767,5 +767,28 @@
     "4081": {
         "added": [],
         "removed": []
+    },
+    "4082": {
+        "added": [
+            "sublime.Window.__hash__",
+            "sublime.Sheet.__hash__",
+            "sublime.View.__hash__",
+            "sublime.View.sheet",
+            "sublime.View.sheet_id",
+            "sublime_plugin.TextChangeListener.detach",
+            "sublime.Window.select_sheets",
+            "sublime.Window.selected_sheets",
+            "sublime.Window.selected_sheets_in_group"
+        ],
+        "removed": [
+            "sublime.TextSheet.__init__",
+            "sublime.ImageSheet.__init__",
+            "sublime.HtmlSheet.__init__",
+            "sublime_plugin.TextChangeListener.remove"
+        ]
+    },
+    "4083": {
+        "added": [],
+        "removed": []
     }
 }
