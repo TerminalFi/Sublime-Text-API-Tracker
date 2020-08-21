@@ -726,5 +726,90 @@
     "4079": {
         "added": [],
         "removed": []
+    },
+    "4080": {
+        "added": [
+            "sublime.Sheet.is_semi_transient",
+            "sublime.Sheet.is_transient",
+            "sublime.View.buffer",
+            "sublime.View.clones",
+            "sublime.View.syntax",
+            "sublime._buffers",
+            "sublime.Buffer.__init__",
+            "sublime.Buffer.primary_view",
+            "sublime.Buffer.views",
+            "sublime.syntax_from_path",
+            "sublime.find_syntax_by_name",
+            "sublime.find_syntax_by_scope",
+            "sublime.find_syntax_for_file",
+            "sublime.Syntax.__eq__",
+            "sublime.Syntax.__init__",
+            "sublime_plugin.EventListener.on_close_buffer",
+            "sublime_plugin.EventListener.on_close_buffer_async",
+            "sublime_plugin.EventListener.on_new_buffer",
+            "sublime_plugin.EventListener.on_new_buffer_async",
+            "sublime_plugin.ViewEventListener.on_close_buffer",
+            "sublime_plugin.ViewEventListener.on_close_buffer_async",
+            "sublime_plugin.ViewEventListener.on_new_buffer",
+            "sublime_plugin.ViewEventListener.on_new_buffer_async",
+            "sublime_plugin.TextChangeListener.__init__",
+            "sublime_plugin.TextChangeListener.attach",
+            "sublime_plugin.TextChangeListener.is_applicable",
+            "sublime_plugin.TextChangeListener.is_attached",
+            "sublime_plugin.TextChangeListener.remove",
+            "sublime.Buffer.__repr__",
+            "sublime.Syntax.__repr__",
+            "sublime_plugin.BackInputHandler.initial_selection",
+            "sublime_plugin.TextInputHandler.initial_selection",
+            "sublime_plugin.ListInputHandler.initial_selection"
+        ],
+        "removed": [
+            "sublime.find_syntax",
+            "sublime_plugin.EventListener.on_text_changed",
+            "sublime_plugin.EventListener.on_text_changed_async",
+            "sublime_plugin.ViewEventListener.on_text_changed",
+            "sublime_plugin.ViewEventListener.on_text_changed_async"
+        ]
+    },
+    "4081": {
+        "added": [],
+        "removed": []
+    },
+    "4082": {
+        "added": [
+            "sublime.Window.__hash__",
+            "sublime.Sheet.__hash__",
+            "sublime.View.__hash__",
+            "sublime.View.sheet",
+            "sublime.View.sheet_id",
+            "sublime.Buffer.__eq__",
+            "sublime.Buffer.__hash__",
+            "sublime.Buffer.file_name",
+            "sublime.Buffer.id",
+            "sublime.QuickPanelItem.__init__",
+            "sublime_plugin.TextChangeListener.detach",
+            "sublime.Window.select_sheets",
+            "sublime.Window.selected_sheets",
+            "sublime.Window.selected_sheets_in_group"
+        ],
+        "removed": [
+            "sublime.TextSheet.__init__",
+            "sublime.ImageSheet.__init__",
+            "sublime.HtmlSheet.__init__",
+            "sublime_plugin.TextChangeListener.remove"
+        ]
+    },
+    "4083": {
+        "added": [],
+        "removed": []
+    },
+    "4084": {
+        "added": [
+            "sublime_plugin.EventListener.on_associate_buffer",
+            "sublime_plugin.EventListener.on_associate_buffer_async",
+            "sublime_plugin.ViewEventListener.on_associate_buffer",
+            "sublime_plugin.ViewEventListener.on_associate_buffer_async"
+        ],
+        "removed": []
     }
 }
