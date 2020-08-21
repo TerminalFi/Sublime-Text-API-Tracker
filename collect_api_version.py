@@ -20,6 +20,7 @@ _classes = [
     "PhantomSet",
     "Region",
     "Selection",
+    "Buffer",
     "Settings",
     "View",
     "Window",
@@ -30,8 +31,10 @@ _classes = [
     "ImageSheet",
     "HtmlSheet",
     "Html",
+    "Syntax",
     "CompletionList",
     "CompletionItem",
+    "QuickPanelItem",
     # ~ From the sublime_plugin module
     "ApplicationCommand",
     "EventListener",
