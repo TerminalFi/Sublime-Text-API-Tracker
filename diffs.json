@@ -811,5 +811,17 @@
             "sublime_plugin.ViewEventListener.on_associate_buffer_async"
         ],
         "removed": []
+    },
+    "4085": {
+        "added": [
+            "sublime.Window.symbol_locations",
+            "sublime.View.indexed_symbol_regions",
+            "sublime.View.symbol_regions",
+            "sublime.QuickPanelItem.__repr__"
+        ],
+        "removed": [
+            "sublime.Window.lookup_symbol_in_index_by_kind",
+            "sublime.Window.lookup_symbol_in_open_files_by_kind"
+        ]
     }
 }
