@@ -177,6 +177,7 @@
     "sublime.View.clones",
     "sublime.View.close",
     "sublime.View.command_history",
+    "sublime.View.context_backtrace",
     "sublime.View.element",
     "sublime.View.em_width",
     "sublime.View.encoding",

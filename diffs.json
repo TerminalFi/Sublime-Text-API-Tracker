@@ -823,5 +823,15 @@
             "sublime.Window.lookup_symbol_in_index_by_kind",
             "sublime.Window.lookup_symbol_in_open_files_by_kind"
         ]
+    },
+    "4086": {
+        "added": [],
+        "removed": []
+    },
+    "4087": {
+        "added": [
+            "sublime.View.context_backtrace"
+        ],
+        "removed": []
     }
 }
