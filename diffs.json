@@ -833,5 +833,66 @@
             "sublime.View.context_backtrace"
         ],
         "removed": []
+    },
+    "4088": {
+        "added": [
+            "sublime.Sheet.close"
+        ],
+        "removed": []
+    },
+    "4089": {
+        "added": [],
+        "removed": []
+    },
+    "4090": {
+        "added": [],
+        "removed": []
+    },
+    "4092": {
+        "added": [
+            "sublime.View.export_to_html"
+        ],
+        "removed": []
+    },
+    "4093": {
+        "added": [],
+        "removed": []
+    },
+    "4094": {
+        "added": [],
+        "removed": []
+    },
+    "4095": {
+        "added": [],
+        "removed": []
+    },
+    "4096": {
+        "added": [
+            "sublime.ui_info",
+            "sublime_plugin.BackInputHandler.want_event",
+            "sublime_plugin.TextInputHandler.want_event",
+            "sublime_plugin.ListInputHandler.want_event"
+        ],
+        "removed": []
+    },
+    "4097": {
+        "added": [],
+        "removed": []
+    },
+    "4098": {
+        "added": [],
+        "removed": []
+    },
+    "4099": {
+        "added": [
+            "sublime.get_log_commands",
+            "sublime.get_log_input",
+            "sublime.get_log_fps",
+            "sublime.get_log_result_regex",
+            "sublime.get_log_indexing",
+            "sublime.get_log_build_systems",
+            "sublime.get_log_control_tree"
+        ],
+        "removed": []
     }
 }
