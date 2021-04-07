@@ -894,5 +894,15 @@
             "sublime.get_log_control_tree"
         ],
         "removed": []
+    },
+    "4100": {
+        "added": [
+            "sublime.Sheet.group"
+        ],
+        "removed": []
+    },
+    "4101": {
+        "added": [],
+        "removed": []
     }
 }
