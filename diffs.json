@@ -920,5 +920,62 @@
     "4105": {
         "added": [],
         "removed": []
+    },
+    "4106": {
+        "added": [],
+        "removed": []
+    },
+    "4107": {
+        "added": [],
+        "removed": []
+    },
+    "4108": {
+        "added": [],
+        "removed": []
+    },
+    "4109": {
+        "added": [],
+        "removed": []
+    },
+    "4110": {
+        "added": [],
+        "removed": []
+    },
+    "4111": {
+        "added": [],
+        "removed": []
+    },
+    "4112": {
+        "added": [],
+        "removed": []
+    },
+    "4113": {
+        "added": [],
+        "removed": []
+    },
+    "4114": {
+        "added": [
+            "sublime.Window.open_file_history",
+            "sublime.View.clear_undo_stack",
+            "sublime.Syntax.__hash__",
+            "sublime.Window.file_history"
+        ],
+        "removed": []
+    },
+    "4115": {
+        "added": [],
+        "removed": []
+    },
+    "4116": {
+        "added": [],
+        "removed": []
+    },
+    "4117": {
+        "added": [],
+        "removed": []
+    },
+    "4118": {
+        "added": [],
+        "removed": []
     }
 }
