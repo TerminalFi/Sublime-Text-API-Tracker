@@ -7,7 +7,7 @@ on:
     paths:
       - "versions.json"
   schedule:
-    - cron: "* */6 * * *"
+    - cron: "* */24 * * *"
 
 jobs:
   update-api-docs:
