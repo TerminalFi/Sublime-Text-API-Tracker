@@ -35,6 +35,9 @@ _classes = [
     "CompletionList",
     "CompletionItem",
     "QuickPanelItem",
+    "ContextStackFrame",
+    "SymbolRegion",
+    "SymbolLocation",
     # ~ From the sublime_plugin module
     "ApplicationCommand",
     "EventListener",
