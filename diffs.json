@@ -977,5 +977,70 @@
     "4118": {
         "added": [],
         "removed": []
+    },
+    "4119": {
+        "added": [
+            "sublime.SymbolRegion.__init__",
+            "sublime.SymbolRegion.__repr__",
+            "sublime.SymbolLocation.__init__",
+            "sublime.SymbolLocation.__repr__",
+            "sublime.SymbolLocation.path_encoded_position"
+        ],
+        "removed": []
+    },
+    "4120": {
+        "added": [],
+        "removed": []
+    },
+    "4121": {
+        "added": [],
+        "removed": []
+    },
+    "4122": {
+        "added": [],
+        "removed": []
+    },
+    "4123": {
+        "added": [
+            "sublime.Window.move_sheets_to_group"
+        ],
+        "removed": []
+    },
+    "4124": {
+        "added": [],
+        "removed": []
+    },
+    "4125": {
+        "added": [],
+        "removed": []
+    },
+    "4126": {
+        "added": [],
+        "removed": []
+    },
+    "4127": {
+        "added": [
+            "sublime.ContextStackFrame.__init__",
+            "sublime.ContextStackFrame.__repr__"
+        ],
+        "removed": []
+    },
+    "4128": {
+        "added": [],
+        "removed": []
+    },
+    "4129": {
+        "added": [],
+        "removed": []
+    },
+    "4130": {
+        "added": [
+            "sublime.View.expand_to_scope"
+        ],
+        "removed": []
+    },
+    "4131": {
+        "added": [],
+        "removed": []
     }
 }
