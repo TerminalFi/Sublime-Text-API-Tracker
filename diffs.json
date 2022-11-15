@@ -1042,5 +1042,40 @@
     "4131": {
         "added": [],
         "removed": []
+    },
+    "4136": {
+        "added": [
+            "sublime.Window.promote_sheet",
+            "sublime.Sheet.is_selected"
+        ],
+        "removed": []
+    },
+    "4137": {
+        "added": [],
+        "removed": []
+    },
+    "4138": {
+        "added": [],
+        "removed": []
+    },
+    "4139": {
+        "added": [],
+        "removed": []
+    },
+    "4140": {
+        "added": [],
+        "removed": []
+    },
+    "4141": {
+        "added": [],
+        "removed": []
+    },
+    "4142": {
+        "added": [],
+        "removed": []
+    },
+    "4143": {
+        "added": [],
+        "removed": []
     }
 }
