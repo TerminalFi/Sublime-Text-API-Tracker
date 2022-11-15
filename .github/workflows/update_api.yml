@@ -27,4 +27,4 @@ jobs:
         run: |
           python collect_api_version.py
         env:
-          GITHUB_API_TOKEN: ${{ secrets.GITHUB_API_TOKEN }}
+          GITHUB_API_TOKEN: ${{ secrets.GH_TOKEN }}
