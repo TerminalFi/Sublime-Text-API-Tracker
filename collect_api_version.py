@@ -104,7 +104,7 @@ class SublimeTextAPIVersion:
         self.results = {}
         self.github = github3.login(token=os.environ["GITHUB_API_TOKEN"])
         self.repository = self.github.repository(
-            "TheSecEng", "Sublime-Text-API-Tracker"
+            "TerminalFi", "Sublime-Text-API-Tracker"
         )
         self.master = self.repository.commit("master")
         self.master_branch = "master"
@@ -132,6 +132,8 @@ class SublimeTextAPIVersion:
 
             self.new_versions += 1
             save_path = download_sublime(self.version_download_url[version])
+            if save_path == "":
+                continue
             self.results = handle_archive(version, save_path, self.results)
             os.remove(save_path)
             de = DiffEngine(self.sublime_api_list_content, self.results[version])
@@ -336,10 +338,14 @@ def handle_archive(build, archive_name, results=None):
 
 def download_sublime(url):
     save_path = "./%s" % unquote(url).split("/")[-1]
-    with request.urlopen(url) as dl_file:
-        with open(save_path, "wb") as out_file:
-            out_file.write(dl_file.read())
-    return save_path
+    try:
+        with request.urlopen(url) as dl_file:
+            with open(save_path, "wb") as out_file:
+                out_file.write(dl_file.read())
+        return save_path
+    except:
+        print("failed")
+    return ""
 
 
 if __name__ == "__main__":
