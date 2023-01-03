@@ -102,7 +102,7 @@ class SublimeTextAPIVersion:
         self.new_version = False
         self.new_versions = 0
         self.results = {}
-        self.github = github3.login(token=os.environ["GITHUB_API_TOKEN"])
+        self.github = github3.login(token=os.environ["GH_API_TOKEN"])
         self.repository = self.github.repository(
             "TerminalFi", "Sublime-Text-API-Tracker"
         )
